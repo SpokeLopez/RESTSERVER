@@ -18,7 +18,7 @@ const getUsers = async (req = request, res = response) =>{
 
 const putUsers = async (req, res = response) =>{
     const { id } = req.params;
-    const { _id, password, google, correo, ...resto} = req.body;
+    const { password, google, correo, ...resto} = req.body;
 
     //Comparar data vs base de datos.
     if(password) {
@@ -50,14 +50,15 @@ const postUsers = async (req, res = response) =>{
 
 const deleteUsers = async (req, res = response) =>{
     const { id } = req.params;
-    // Eliminamos el id de la base de datos
+    // Eliminamos el usuario de la base de datos
     // const user = await User.findByIdAndDelete(id);
 
-    //Cambiamos el status del usuario en la base de datos
-    const status = await User.findByIdAndUpdate(id, { estado: false });
-    res.json({
-        status
-    })
+    // Cambiamos el status del usuario en la base de datos a false
+    const user = await User.findByIdAndUpdate(id, { estado: false });
+    
+    // Obtenemos el usuario que hace la consulta
+    // const userAuth = req.user;
+    res.json(user)
 }
 
 module.exports = {
